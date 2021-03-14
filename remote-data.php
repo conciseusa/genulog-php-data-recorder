@@ -1,5 +1,5 @@
 <?php
-$configs = include('remote-data-config.php');
+$configs = include('../remote-data-config.php');
 
 // define variables and set to empty values
 $upkey = $data = "";
