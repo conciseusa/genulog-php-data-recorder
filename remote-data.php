@@ -15,7 +15,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (trim(trim($_POST["upkey"],"'"),'"
   }
   $json = json_encode($data);
 
-  $written = file_put_contents('data-'.date('Y-m').'.txt', $json.PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
+  $written = file_put_contents('../log/data-'.date('Y-m').'.txt', $json.PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
 
   // echo $json, "\n"; // !! be careful, this has upkey in it !!
   echo 'w: ', $written, "\n\n";
@@ -35,7 +35,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (trim(trim($_POST["upkey"],"'"),'"
 } else {
   echo "Error";
 
-  $written = file_put_contents('error.txt', $_SERVER["REMOTE_ADDR"].PHP_EOL.$_SERVER["REQUEST_METHOD"].PHP_EOL.json_encode($_POST).PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
+  $written = file_put_contents('../log/error.txt', $_SERVER["REMOTE_ADDR"].PHP_EOL.$_SERVER["REQUEST_METHOD"].PHP_EOL.json_encode($_POST).PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
 }
 
 function prep_input($data) {
