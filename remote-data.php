@@ -5,7 +5,6 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (trim(trim($_POST["upkey"],"'"),'"
   $data = array();
   $upkey = ''; // remove for writing to file, but keep for relay send
   foreach($_POST as $key => $val) {
-    $data[$key] = prep_input($val); // array holds all post data now
     if ($key == 'upkey') {
       $upkey = $val;
       continue; // keep upkey under wraps
