@@ -35,7 +35,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (trim(trim($_POST["upkey"],"'"),'"
 } else {
   echo "Error";
 
-  $written = file_put_contents('../log/error.txt', $_SERVER["REMOTE_ADDR"].PHP_EOL.$_SERVER["REQUEST_METHOD"].PHP_EOL.json_encode($_POST).PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
+  $written = file_put_contents('../log/error.txt', date(DATE_ATOM)." - "._SERVER["REMOTE_ADDR"]." ".$_SERVER["REQUEST_METHOD"].PHP_EOL.json_encode($_POST).PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
 }
 
 function prep_input($data) {
