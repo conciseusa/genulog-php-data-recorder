@@ -3,24 +3,28 @@ include('../remote-data-config.php');
 
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (trim(trim($_POST["upkey"],"'"),'"') == $configs['upkey'])) {
   $data = array();
+  $upkey = ''; // remove for writing to file, but keep for relay send
   foreach($_POST as $key => $val) {
     $data[$key] = prep_input($val); // array holds all post data now
-    //if ($key == 'upkey')
-    //  continue; // keep upkey under wraps
-    //else
-    // echo $key.': '.$val."<br>\n";
+    if ($key == 'upkey')
+      $upkey = $val;
+      continue; // keep upkey under wraps
+    else
+      $data[$key] = prep_input($val);
+      // echo $key.': '.$val."<br>\n"; // for testing
   }
-  if ($configs['relayUrl']) {
-    $data["stationId"] = $configs['relayStationId'];
-  }
+
   $json = json_encode($data);
 
   $written = file_put_contents('../log/data-'.date('Y-m').'.txt', $json.PHP_EOL.PHP_EOL , FILE_APPEND | LOCK_EX);
 
-  // echo $json, "\n"; // !! be careful, this has upkey in it !!
+  // echo $json, "\n"; // !! be careful if this has upkey in it !!
   echo 'w: ', $written, "\n\n";
 
   if ($configs['relayUrl']) { // relay to next data collection service
+    $data["stationId"] = $configs['relayStationId'];
+    $data["upkey"] = $upkey;
+    $json = json_encode($data); // refresh with relay stationId
     $result = send_data($json, $configs['relayUrl']);
   }
 
